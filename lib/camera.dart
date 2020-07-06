@@ -14,29 +14,22 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   File imageFile;
   List<String> results = new List<String>();
-  Future<List<String>> future;
+  Future<String> future;
   String finalRes = ''' ''';
 
   @override
   Widget build(BuildContext context) {
-    Future<List<String>> _upload(File image, String url) async {
+    Future<String> _upload(File image, String url) async {
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.files.add(
-        await http.MultipartFile.fromPath('file', image.path,
+        await http.MultipartFile.fromPath('image', image.path,
             contentType: MediaType('application', 'jpeg'),
             filename: basename(image.path)),
       );
       var response = await request.send();
       String responseBody = await response.stream.bytesToString();
       print(responseBody);
-      var castBody = json.decode(responseBody)['body'];
-      var castName = json.decode(castBody);
-      for (Map<String, dynamic> element in castName) {
-        results.add(element["Name"]);
-      }
-      for (var i = 0; i < results.length; i++) {
-        finalRes += results[i] + "\n";
-      }
+
       Future.delayed(Duration.zero, () {
         showDialog(
           context: context,
@@ -44,11 +37,11 @@ class _CameraState extends State<Camera> {
             title: Text("results"),
             content: Text(finalRes == "" || finalRes == null
                 ? "Can’t reconize object, try again!"
-                : finalRes),
+                : responseBody),
           ),
         );
       });
-      return results;
+      return responseBody;
     }
 
     Future getImage() async {
@@ -73,7 +66,7 @@ class _CameraState extends State<Camera> {
           children: <Widget>[
             imageFile == null ? Text('not found') : Image.file(imageFile),
             if (imageFile == null || future == null)
-              Text('Pick an image to recognize it')
+              Text('Pick an image')
             else
               FutureBuilder(
                   future: future,
@@ -84,13 +77,7 @@ class _CameraState extends State<Camera> {
                     } else if (snapshot.hasError) {
                       return Text("error");
                     } else if (snapshot.hasData) {
-                      finalRes = "";
-                      for (var i = 0; i < results.length; i++) {
-                        finalRes += results[i] + "\n";
-                      }
-                      if (finalRes == "") {
-                        return Text("Can’t reconize object, try again!");
-                      }
+                      return Text("$snapshot.data");
                     } else {
                       return CircularProgressIndicator();
                     }
