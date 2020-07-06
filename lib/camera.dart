@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,10 +12,15 @@ class Camera extends StatefulWidget {
 
 class _CameraState extends State<Camera> {
   File imageFile;
-  List<String> results = new List<String>();
   Future<String> future;
-  String finalRes = ''' ''';
 
+
+
+  // Change this var value to current url.
+  String url = "http://192.168.43.59:5000/upload";
+  //  Change this var value to current url.
+
+  
   @override
   Widget build(BuildContext context) {
     Future<String> _upload(File image, String url) async {
@@ -34,57 +38,92 @@ class _CameraState extends State<Camera> {
         showDialog(
           context: context,
           child: new AlertDialog(
-            title: Text("results"),
-            content: Text(finalRes == "" || finalRes == null
-                ? "Can’t reconize object, try again!"
-                : responseBody),
+            title: Text("Status"),
+            content: Text(responseBody),
           ),
         );
       });
       return responseBody;
     }
 
-    Future getImage() async {
+    Future getImage(ImageSource source) async {
       final pickedFile = await ImagePicker()
-          .getImage(source: ImageSource.camera, maxHeight: 300, maxWidth: 300);
+          .getImage(source: source , maxHeight: 300, maxWidth: 300);
       if (pickedFile != null) {
         setState(() {
           imageFile = File(pickedFile.path);
-          future = _upload(imageFile, "192.168.43.59");
+          future = _upload(imageFile, url);
         });
       }
     }
 
+    // ignore: missing_return
+    Future _imageChoiceDialog() {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: Text("From where do you want to take the photo?"),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      InkWell(
+                        child: Text("Gallery"),
+                        onTap: () {
+                          getImage(ImageSource.gallery);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Padding(padding: EdgeInsets.all(12.0)),
+                      InkWell(
+                        child: Text("Camera"),
+                        onTap: () {
+                          getImage(ImageSource.camera);
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                  ),
+                ));
+          });
+    }
+
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
+        onPressed: _imageChoiceDialog,
+        child: Icon(Icons.add_a_photo),
       ),
       body: Center(
           child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 50),
+        padding: const EdgeInsets.only(top: 300,),
         child: Column(
           children: <Widget>[
             imageFile == null ? Text('not found') : Image.file(imageFile),
+            SizedBox(
+              height: 50,
+            ),
             if (imageFile == null || future == null)
               Text('Pick an image')
             else
               FutureBuilder(
                   future: future,
-                  // ignore: missing_return
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.none) {
                       return Text("");
                     } else if (snapshot.hasError) {
-                      return Text("error");
+                      return Text("$snapshot.error");
                     } else if (snapshot.hasData) {
                       return Text("$snapshot.data");
                     } else {
                       return CircularProgressIndicator();
                     }
-                  }),
+                  }
+              ),
           ],
         ),
-      )),
+       )
+      ),
     );
   }
 }
