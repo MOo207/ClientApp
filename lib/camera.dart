@@ -14,26 +14,22 @@ class _CameraState extends State<Camera> {
   File imageFile;
   Future<String> future;
 
-
-
   // Change this var value to current url.
-  String url = "http://192.168.43.59:5000/upload";
+  String url = "http://192.168.43.59:8080/upload";
   //  Change this var value to current url.
 
-  
   @override
   Widget build(BuildContext context) {
+
     Future<String> _upload(File image, String url) async {
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.files.add(
         await http.MultipartFile.fromPath('image', image.path,
-            contentType: MediaType('application', 'jpeg'),
             filename: basename(image.path)),
       );
       var response = await request.send();
       String responseBody = await response.stream.bytesToString();
       print(responseBody);
-
       Future.delayed(Duration.zero, () {
         showDialog(
           context: context,
@@ -48,7 +44,7 @@ class _CameraState extends State<Camera> {
 
     Future getImage(ImageSource source) async {
       final pickedFile = await ImagePicker()
-          .getImage(source: source , maxHeight: 300, maxWidth: 300);
+          .getImage(source: source, maxHeight: 300, maxWidth: 300);
       if (pickedFile != null) {
         setState(() {
           imageFile = File(pickedFile.path);
@@ -88,7 +84,6 @@ class _CameraState extends State<Camera> {
           });
     }
 
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _imageChoiceDialog,
@@ -96,7 +91,9 @@ class _CameraState extends State<Camera> {
       ),
       body: Center(
           child: Padding(
-        padding: const EdgeInsets.only(top: 300,),
+        padding: const EdgeInsets.only(
+          top: 300,
+        ),
         child: Column(
           children: <Widget>[
             imageFile == null ? Text('not found') : Image.file(imageFile),
@@ -118,12 +115,10 @@ class _CameraState extends State<Camera> {
                     } else {
                       return CircularProgressIndicator();
                     }
-                  }
-              ),
+                  }),
           ],
         ),
-       )
-      ),
+      )),
     );
   }
 }
