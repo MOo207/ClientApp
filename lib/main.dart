@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:Trancity/screens/camera.dart';
-import 'package:Trancity/screens/nfc.dart';
+import 'package:Trancity/services/Nfc/nfc.dart';
+import 'package:Trancity/services/camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
       home: HomePage(),
@@ -46,6 +47,9 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Trancity Client'),
+      ),
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
       ),
@@ -55,7 +59,7 @@ class HomePageState extends State<HomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.nfc), title: Text('NFC')),
         ],
         currentIndex: selectedIndex,
-        fixedColor: Colors.deepPurple,
+        fixedColor: Colors.blue,
         onTap: onItemTapped,
       ),
     );

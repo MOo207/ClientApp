@@ -96,7 +96,7 @@ class _CameraState extends State<Camera> {
       body: Center(
           child: Padding(
         padding: const EdgeInsets.only(
-          top: 300,
+          top: 200,
         ),
         child: Column(
           children: <Widget>[
