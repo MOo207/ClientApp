@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:CamApp/services/addCard.dart';
 import 'package:CamApp/services/camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Trancity Viritual Camera',
       theme: ThemeData(),
       home: HomePage(),
@@ -25,8 +27,7 @@ class MyApp extends StatelessWidget {
 class MyHttpOverrides extends HttpOverrides{ 
   @override
   HttpClient createHttpClient(SecurityContext context){
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
 
@@ -41,6 +42,7 @@ class HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   final widgetOptions = [
     Camera(),
+    AddCard()
   ];
 
   @override
@@ -55,6 +57,7 @@ class HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.add_a_photo), title: Text('CAMERA')),
+          BottomNavigationBarItem(icon: Icon(Icons.credit_card), title: Text('Add Card')),
         ],
         currentIndex: selectedIndex,
         fixedColor: Colors.deepPurple,
