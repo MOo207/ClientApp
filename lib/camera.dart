@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Camera extends StatefulWidget {
@@ -15,9 +14,10 @@ class _CameraState extends State<Camera> {
   Future<String> future;
 
   // Change this var value to current url.
-  String url = "http://192.168.43.59:8080/upload";
+  String url = "http://192.168.43.16:8080/api/upload/5f0d22f5f41c643ac4908eb5/5f0d22f5f41c643ac4908eb6";
   //  Change this var value to current url.
-
+// camera 0 http://192.168.43.16:8080/api/upload/5f0d22f5f41c643ac4908eb5/5f0d22f5f41c643ac4908eb6
+// camera 1 http://192.168.43.16:8080/api/upload/5f0d22f5f41c643ac4908eb5/5f0d22f5f41c643ac4908eb7
   @override
   Widget build(BuildContext context) {
 
@@ -34,7 +34,7 @@ class _CameraState extends State<Camera> {
         showDialog(
           context: context,
           child: new AlertDialog(
-            title: Text("Status"),
+            title: Text("Number of Persons"),
             content: Text(responseBody),
           ),
         );
@@ -53,6 +53,11 @@ class _CameraState extends State<Camera> {
       }
     }
 
+    void initialize(){
+      imageFile = null; 
+      future = null;
+    }
+
     // ignore: missing_return
     Future _imageChoiceDialog() {
       showDialog(
@@ -66,6 +71,7 @@ class _CameraState extends State<Camera> {
                       InkWell(
                         child: Text("Gallery"),
                         onTap: () {
+                          initialize();
                           getImage(ImageSource.gallery);
                           Navigator.pop(context);
                         },
@@ -74,6 +80,7 @@ class _CameraState extends State<Camera> {
                       InkWell(
                         child: Text("Camera"),
                         onTap: () {
+                          initialize();
                           getImage(ImageSource.camera);
                           Navigator.pop(context);
                         },
@@ -91,17 +98,17 @@ class _CameraState extends State<Camera> {
       ),
       body: Center(
           child: Padding(
-        padding: const EdgeInsets.only(
-          top: 300,
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height/2,
         ),
         child: Column(
           children: <Widget>[
-            imageFile == null ? Text('not found') : Image.file(imageFile),
+            imageFile == null ? Text('Choose Image') : Image.file(imageFile),
             SizedBox(
               height: 50,
             ),
             if (imageFile == null || future == null)
-              Text('Pick an image')
+              Text('')
             else
               FutureBuilder(
                   future: future,
@@ -109,9 +116,9 @@ class _CameraState extends State<Camera> {
                     if (snapshot.connectionState == ConnectionState.none) {
                       return Text("");
                     } else if (snapshot.hasError) {
-                      return Text("$snapshot.error");
+                      return Text("Try Again!");
                     } else if (snapshot.hasData) {
-                      return Text("$snapshot.data");
+                      return Text("Uploaded Success...!");
                     } else {
                       return CircularProgressIndicator();
                     }
