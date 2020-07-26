@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:CamApp/services/addCard.dart';
 import 'package:CamApp/services/camera.dart';
+import 'package:CamApp/services/location.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -42,14 +43,15 @@ class HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   final widgetOptions = [
     Camera(),
-    AddCard()
+    AddCard(),
+    CurrentLocationWidget(androidFusedLocation: true,)
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trancity Viritual Camera'),
+        title: Text('Trancity'),
       ),
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
@@ -58,9 +60,10 @@ class HomePageState extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.add_a_photo), title: Text('CAMERA')),
           BottomNavigationBarItem(icon: Icon(Icons.credit_card), title: Text('Add Card')),
+          BottomNavigationBarItem(icon: Icon(Icons.location_on), title: Text('Location')),
         ],
         currentIndex: selectedIndex,
-        fixedColor: Colors.deepPurple,
+        fixedColor: Colors.blue,
         onTap: onItemTapped,
       ),
     );
