@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../screens/style.dart' as style;
 
 class AddCard extends StatefulWidget {
   @override
@@ -9,8 +10,8 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
-  String url = 'http://192.168.43.65:8080/pass/combine';
-  Future _futureLogin;
+  String url = 'http://192.168.43.65:8080/passenger/addPassengerCard';
+  Future _future;
   final _idController = TextEditingController();
   final codeController = TextEditingController();
 
@@ -22,50 +23,69 @@ class _AddCardState extends State<AddCard> {
     super.dispose();
   }
 
-  Widget _entryField(String title, TextEditingController myController,
-      {bool isPassword = false}) {
+  Widget div(){
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextField(
-              controller: myController,
-              obscureText: isPassword,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))
-        ],
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                      color: style.foregroundColor,
+                      width: 0.5,
+                      style: BorderStyle.solid),
+                ),
+              ),
+              );
+  }
+
+ Widget _field(String hint, TextEditingController myController) {
+    return TextField(
+      controller: myController,
+       cursorColor: style.highlightColor,
+      style: TextStyle(color: Colors.white),
+      textAlign: TextAlign.center,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: hint,
+        hintStyle: TextStyle(color: style.foregroundColor),
       ),
     );
   }
 
-  Widget _emailPasswordWidget() {
-    return Column(
-      children: <Widget>[
-        _entryField("_id", _idController),
-        _entryField("code", codeController),
-      ],
-    );
-  }
 
   Widget _submitButton(Future future) {
-    return RaisedButton(
-        child: Text('Submit'),
-        onPressed: () {
-          setState(() {
-            future =
+    return FlatButton(
+      // shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(30.0)
+      //     ),
+      color: style.highlightColor,
+      onPressed: () {
+        setState(() {
+        future =
                 addCard(_idController.text.trim(), codeController.text.trim());
-          });
         });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20.0,
+          horizontal: 20.0,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+             Expanded(
+              child: Text(
+                "LOGIN",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: style.foregroundColor, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<String> addCard(String _id, String code) async {
@@ -109,7 +129,20 @@ class _AddCardState extends State<AddCard> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: style.backgroundColor1,
         body: Container(
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+            begin: Alignment.centerLeft,
+            end: new Alignment(
+                1.0, 0.0), // 10% of the width, so there are ten blinds.
+            colors: [
+              style.backgroundColor1,
+              style.backgroundColor2
+            ], // whitish to gray
+            tileMode: TileMode.repeated, // repeats the gradient over the canvas
+          ),
+        ),
       height: height,
       child: Stack(
         children: <Widget>[
@@ -120,12 +153,14 @@ class _AddCardState extends State<AddCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                 
+                   _field("id",_idController),
                   SizedBox(height: 50),
-                  _emailPasswordWidget(),
+                  _field("code",codeController ),
                   SizedBox(height: 20),
-                  _submitButton(_futureLogin),
+                  _submitButton(_future),
                   FutureBuilder<String>(
-                      future: _futureLogin,
+                      future: _future,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.none) {
                           return Text("");

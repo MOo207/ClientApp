@@ -1,4 +1,4 @@
-package com.example.CamApp
+package com.example.Trancity
 
 import io.flutter.embedding.android.FlutterActivity
 
