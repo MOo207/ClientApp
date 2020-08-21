@@ -1,12 +1,14 @@
 import 'dart:io';
+import 'package:Trancity/screens/cards/addCard.dart';
+import 'package:Trancity/screens/stations/getStations.dart';
 import 'package:Trancity/screens/style.dart' as style;
 import 'package:Trancity/screens/profile/loginPage.dart';
 import 'package:Trancity/screens/profile/signup.dart';
 import 'package:Trancity/screens/profile/welcomePage.dart';
-import 'package:Trancity/services/addCard.dart';
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-
 
 
 void main() {
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: style.backgroundColor1,
           ),
+          
       home: WelcomePage(),
     );
   }
@@ -54,28 +57,76 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   final widgetOptions = [
-    AddCard(),
-    Text('sd')
+    GetStations(),
+    AddCard()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Trancity'),
-      ),
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.credit_card), title: Text('Add Card')),
-          BottomNavigationBarItem(icon: Icon(Icons.credit_card), title: Text('Add Card')),
-        ],
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){},
+          child: Icon(Icons.track_changes),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: BubbleBottomBar(
+        hasNotch: true,
+        fabLocation: BubbleBottomBarFabLocation.end,
+        opacity: .2,
         currentIndex: selectedIndex,
-        unselectedItemColor: Colors.blueGrey,
-        fixedColor: Colors.blue,
         onTap: onItemTapped,
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16)), //border radius doesn't work when the notch is enabled.
+        elevation: 8,
+        items: <BubbleBottomBarItem>[
+          BubbleBottomBarItem(
+              backgroundColor: Colors.red,
+              icon: Icon(
+                Icons.dashboard,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.dashboard,
+                color: Colors.red,
+              ),
+              title: Text("Home")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.deepPurple,
+              icon: Icon(
+                Icons.access_time,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.access_time,
+                color: Colors.deepPurple,
+              ),
+              title: Text("Logs")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.indigo,
+              icon: Icon(
+                Icons.folder_open,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.folder_open,
+                color: Colors.indigo,
+              ),
+              title: Text("Folders")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.green,
+              icon: Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.menu,
+                color: Colors.green,
+              ),
+              title: Text("Menu"))
+        ],
       ),
     );
   }

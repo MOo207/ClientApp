@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:Trancity/screens/style.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../screens/style.dart' as style;
 
 class AddCard extends StatefulWidget {
   @override
@@ -31,7 +31,7 @@ class _AddCardState extends State<AddCard> {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: style.foregroundColor,
+                      color: foregroundColor,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -42,48 +42,13 @@ class _AddCardState extends State<AddCard> {
  Widget _field(String hint, TextEditingController myController) {
     return TextField(
       controller: myController,
-       cursorColor: style.highlightColor,
+       cursorColor: highlightColor,
       style: TextStyle(color: Colors.white),
       textAlign: TextAlign.center,
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: hint,
-        hintStyle: TextStyle(color: style.foregroundColor),
-      ),
-    );
-  }
-
-
-  Widget _submitButton(Future future) {
-    return FlatButton(
-      // shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(30.0)
-      //     ),
-      color: style.highlightColor,
-      onPressed: () {
-        setState(() {
-        future =
-                addCard(_idController.text.trim(), codeController.text.trim());
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20.0,
-          horizontal: 20.0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-             Expanded(
-              child: Text(
-                "LOGIN",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: style.foregroundColor, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
+        hintStyle: TextStyle(color: foregroundColor),
       ),
     );
   }
@@ -129,7 +94,7 @@ class _AddCardState extends State<AddCard> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: style.backgroundColor1,
+      backgroundColor: backgroundColor1,
         body: Container(
         decoration: new BoxDecoration(
           gradient: new LinearGradient(
@@ -137,8 +102,8 @@ class _AddCardState extends State<AddCard> {
             end: new Alignment(
                 1.0, 0.0), // 10% of the width, so there are ten blinds.
             colors: [
-              style.backgroundColor1,
-              style.backgroundColor2
+              backgroundColor1,
+              backgroundColor2
             ], // whitish to gray
             tileMode: TileMode.repeated, // repeats the gradient over the canvas
           ),
@@ -158,7 +123,7 @@ class _AddCardState extends State<AddCard> {
                   SizedBox(height: 50),
                   _field("code",codeController ),
                   SizedBox(height: 20),
-                  _submitButton(_future),
+                  submitButton("AddCard", ()=> _future = addCard(_idController.text.trim(), codeController.text.trim())),
                   FutureBuilder<String>(
                       future: _future,
                       builder: (context, snapshot) {

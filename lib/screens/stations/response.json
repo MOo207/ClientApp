@@ -1,0 +1,79 @@
+[
+    {
+        "_id": "5f1c275639418e0a9cfc5165",
+        "name": "Random",
+        "cameras": [
+            {
+                "lastImage": "2020-07-26T22:23:17.442Z",
+                "_id": "5f1c275639418e0a9cfc5166",
+                "Key": "1595802191458.jpeg",
+                "peopleCount": 27
+            },
+            {
+                "lastImage": "2020-07-25T12:36:38.478Z",
+                "_id": "5f1c275639418e0a9cfc5167",
+                "Key": "2j8801e7",
+                "peopleCount": 0
+            }
+        ],
+        "longitude": "39.564584",
+        "latitude": "24.481079",
+        "maxCapacity": 5
+    },
+    {
+        "_id": "5f1c27a2c7ed2817d839ad10",
+        "name": "Bap of Madinah Station",
+        "cameras": [
+            {
+                "lastImage": "2020-07-18T09:50:17.273Z",
+                "_id": "5f0d22f5f41c643ac4908eb6",
+                "Key": "1595065812403.jpg",
+                "peopleCount": 2
+            },
+            {
+                "lastImage": "2020-07-14T09:32:33.407Z",
+                "_id": "5f0d22f5f41c643ac4908eb7",
+                "Key": "1594719148678.jpg",
+                "peopleCount": 0
+            }
+        ],
+        "longitude": "39.565684",
+        "latitude": "24.482079",
+        "maxCapacity": 30
+    },
+    {
+        "_id": "5f1c2a19a289e90660384c1f",
+        "name": "random",
+        "cameras": [
+            {
+                "lastImage": "2020-07-25T12:48:25.830Z",
+                "_id": "5f1c2a19a289e90660384c20",
+                "Key": "j94f49i",
+                "peopleCount": 34
+            },
+            {
+                "lastImage": "2020-07-25T12:48:25.830Z",
+                "_id": "5f1c2a19a289e90660384c21",
+                "Key": "j94f49i",
+                "peopleCount": 34
+            }
+        ],
+        "longitude": "39.565404",
+        "latitude": "24.482009",
+        "maxCapacity": 34
+    },
+    {
+        "_id": "5f1e007e72c45413506fda15",
+        "cameras": [
+            {
+                "lastImage": "2020-07-26T22:15:19.947Z",
+                "_id": "5f1e007e72c45413506fda16",
+                "Key": "1595801719947.jpeg",
+                "peopleCount": 27
+            }
+        ],
+        "longitude": "52abghb",
+        "latitude": "52abghb",
+        "maxCapacity": 97
+    }
+]

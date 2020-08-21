@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.1
+  bubble_bottom_bar: ^1.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

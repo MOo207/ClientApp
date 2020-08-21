@@ -96,8 +96,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        decoration: new BoxDecoration(
-          gradient: new LinearGradient(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: new Alignment(
                 1.0, 0.0), // 10% of the width, so there are ten blinds.
