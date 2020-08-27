@@ -3,8 +3,6 @@ import 'package:Trancity/screens/profile/signup.dart';
 import 'package:Trancity/screens/style.dart' as style;
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
-
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key, this.title}) : super(key: key);
 
@@ -116,39 +114,6 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _label() {
-    return Container(
-      margin: EdgeInsets.only(top: 30),
-      child: Column(
-        children: <Widget>[
-          Text(
-            'Go home page Without login',
-            style: TextStyle(color: Colors.white, fontSize: 17),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          // Icon(Icons.fingerprint, size: 90, color: Colors.white),
-          SizedBox(
-            height: 20,
-          ),
-          InkWell(
-            onTap: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage())),
-            child: Text(
-              'HERE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget logo() {
     return Image(
       image: style.logo,
@@ -175,20 +140,6 @@ class _WelcomePageState extends State<WelcomePage> {
               fit: BoxFit.cover,
             ),
           ),
-          //  BoxDecoration(
-          //     borderRadius: BorderRadius.all(Radius.circular(5)),
-          //     boxShadow: <BoxShadow>[
-          //       BoxShadow(
-          //           color: Colors.grey.shade200,
-          //           offset: Offset(2, 4),
-          //           blurRadius: 5,
-          //           spreadRadius: 2)
-          //     ],
-          //     gradient: LinearGradient(
-          //         begin: Alignment.topCenter,
-          //         end: Alignment.bottomCenter,
-          //         colors: [style.backgroundColor1, style.backgroundColor2])
-          //         ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -207,8 +158,6 @@ class _WelcomePageState extends State<WelcomePage> {
               SizedBox(
                 height: 20,
               ),
-
-              _label()
             ],
           )),
     );

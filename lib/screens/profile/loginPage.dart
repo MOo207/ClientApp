@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:Trancity/screens/style.dart' as style;
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../style.dart';
 import 'signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   Future _futureLogin;
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void dispose() {
@@ -34,28 +38,22 @@ class _LoginPageState extends State<LoginPage> {
       body: jsonEncode(
           <String, String>{'username': username, 'password': password}),
     );
-    if (response.body == "1") {
-      showDialog(
-          context: context,
-          child: new AlertDialog(
-            title: new Text("Response"),
-            content: new Text(response.body),
-          ));
+    if (response.statusCode == 200) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('username', username);
+      String id = jsonDecode(response.body)['_id'];
+      prefs.setString('_id', id);
+    showSnackBar("Logged in successfully", _scaffoldKey);
       Navigator.of(context)
           .pushNamedAndRemoveUntil("/home", (Route<dynamic> route) => false);
       return "done";
     } else {
-      showDialog(
-          context: context,
-          child: new AlertDialog(
-            title: new Text("Notice"),
-            content: new Text(response.body),
-          ));
+      showSnackBar("Logged in fails", _scaffoldKey);
       return "not completed";
     }
   }
 
-Widget _loginButton(Future future) {
+  Widget _loginButton(Future future) {
     return FlatButton(
       // shape: RoundedRectangleBorder(
       //     borderRadius: BorderRadius.circular(30.0)
@@ -75,7 +73,7 @@ Widget _loginButton(Future future) {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-             Expanded(
+            Expanded(
               child: Text(
                 "LOGIN",
                 textAlign: TextAlign.center,
@@ -89,7 +87,6 @@ Widget _loginButton(Future future) {
     );
   }
 
-  
   Widget _forgetPasswordButton() {
     return FlatButton(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -119,7 +116,7 @@ Widget _loginButton(Future future) {
     return TextField(
       obscureText: isPass,
       controller: myController,
-       cursorColor: style.highlightColor,
+      cursorColor: style.highlightColor,
       style: TextStyle(color: Colors.white),
       textAlign: TextAlign.center,
       decoration: InputDecoration(
@@ -132,8 +129,10 @@ Widget _loginButton(Future future) {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      key: _scaffoldKey,
+      resizeToAvoidBottomInset: true,
       body: Container(
         decoration: new BoxDecoration(
           gradient: new LinearGradient(
@@ -184,8 +183,9 @@ Widget _loginButton(Future future) {
                 ),
               ),
             ),
-            new Container(
+            Container(
               width: MediaQuery.of(context).size.width,
+              height: height / 19,
               margin: const EdgeInsets.only(left: 40.0, right: 40.0),
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -266,28 +266,33 @@ Widget _loginButton(Future future) {
                 ],
               ),
             ),
-            new Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
-              alignment: Alignment.center,
-              child: new Row(
-                children: <Widget>[
-                  new Expanded(child: _forgetPasswordButton()),
-                ],
+            Flexible(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin:
+                    const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
+                alignment: Alignment.center,
+                child: new Row(
+                  children: <Widget>[
+                    new Expanded(child: _forgetPasswordButton()),
+                  ],
+                ),
               ),
             ),
             new Expanded(
               child: Divider(),
             ),
-            new Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.only(
-                  left: 40.0, right: 40.0, top: 10.0, bottom: 20.0),
-              alignment: Alignment.center,
-              child: new Row(
-                children: <Widget>[
-                  new Expanded(child: _goSignup()),
-                ],
+            Flexible(
+              child: new Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.only(
+                    left: 40.0, right: 40.0, top: 10.0, bottom: 20.0),
+                alignment: Alignment.center,
+                child: new Row(
+                  children: <Widget>[
+                    new Expanded(child: _goSignup()),
+                  ],
+                ),
               ),
             ),
           ],
