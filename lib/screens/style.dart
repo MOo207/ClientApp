@@ -83,6 +83,11 @@ class MyDrawer extends StatelessWidget {
             title: Text('Cards'),
             onTap: () => Navigator.pushReplacementNamed(context, '/cards'),
           ),
+           ListTile(
+            leading: Icon(Icons.bus_alert),
+            title: Text('buses'),
+            onTap: () =>  Navigator.pushReplacementNamed(context, '/buses'),
+          ),
           ListTile(
             leading: Icon(Icons.privacy_tip),
             title: Text('Privacy & Policy'),

@@ -1,0 +1,35 @@
+[
+    {
+        "_id": "5f1cc0fee4b1bb00ec5e06af",
+        "status": "status",
+        "maxCap": 30,
+        "currentCap": 21,
+        "lat": "24.4780189",
+        "long": "39.5612701",
+        "source": "source",
+        "destination": "destination",
+        "__v": 0
+    },
+    {
+        "_id": "5f1cc0fee4b1bb00ec5e06af",
+        "status": "status",
+        "maxCap": 30,
+        "currentCap": 21,
+        "lat": "24.4780189",
+        "long": "39.5612701",
+        "source": "source",
+        "destination": "destination",
+        "__v": 0
+    },
+    {
+        "_id": "5f1cc0fee4b1bb00ec5e06af",
+        "status": "status",
+        "maxCap": 30,
+        "currentCap": 21,
+        "lat": "24.4780189",
+        "long": "39.5612701",
+        "source": "source",
+        "destination": "destination",
+        "__v": 0
+    }
+]

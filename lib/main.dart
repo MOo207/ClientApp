@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Trancity/screens/buses/buses.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Trancity/screens/cards/Cards.dart';
@@ -24,7 +25,8 @@ Future<void> main() async {
       '/login': (context) => LoginPage(),
       '/signup': (context) => SignUpPage(),
       '/home': (context) => HomePage(),
-      '/cards': (context)=> Cards()
+      '/cards': (context)=> Cards(),
+      '/buses': (context)=> Buses()
     },
     debugShowCheckedModeBanner: false,
     title: 'Trancity',
