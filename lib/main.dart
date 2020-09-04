@@ -8,7 +8,7 @@ import 'package:Trancity/screens/style.dart' as style;
 import 'package:Trancity/screens/profile/loginPage.dart';
 import 'package:Trancity/screens/profile/signup.dart';
 import 'package:Trancity/screens/profile/welcomePage.dart';
-
+// AIzaSyCmu_M1QUNSvub_68dIp4MckFUR8KPuU-Y
 Future<void> main() async {
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,7 @@ Future<void> main() async {
       '/signup': (context) => SignUpPage(),
       '/home': (context) => HomePage(),
       '/cards': (context)=> Cards(),
-      '/buses': (context)=> Buses()
+      '/buses': (context)=> Buses(),
     },
     debugShowCheckedModeBanner: false,
     title: 'Trancity',

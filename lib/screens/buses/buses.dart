@@ -12,13 +12,13 @@ class Buses extends StatefulWidget {
 class _BusesState extends State<Buses> {
   int selectedIndex = 0;
   Future<List<Bus>> _future;
-
-  String url = 'http://192.168.43.59:8080/bus';
+// 192.168.43.59
+  String busUrl = 'http://192.168.43.59:8080/bus';
 
   Future<List<Bus>> getBuses() async {
     try {
       final response = await http.get(
-        url,
+        busUrl,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
