@@ -281,6 +281,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
+              ticketAd(),
               SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.all(8.0),
@@ -610,11 +611,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+query(){
+  return MediaQuery.of(context).size;
+}
 // ticket widget ----------------------------------------------------------------------------
   Widget ticket() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Container(
+        height: query().height/1.7,
         padding: EdgeInsets.all(20.0),
         margin: EdgeInsets.symmetric(vertical: 0.0),
         decoration: BoxDecoration(
@@ -826,5 +831,61 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+  Widget ticketAd(){
+    return Container(
+      width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(15.0),
+              decoration: BoxDecoration(
+                color: Colors.lightGreen,
+                borderRadius: BorderRadius.circular(15.0),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 15,
+                    offset: Offset(0, 9),
+                    color: Colors.lightGreen.withOpacity(.75),
+                  )
+                ],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Image.asset('assets/invoice.png'),
+                  ),
+                  SizedBox(width: 15.0),
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Text(
+                          "Buying tickets is now much more comfortable.",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 5.0),
+                        Text(
+                          "Buy a ticket now and get 50% discount.",
+                          style: TextStyle(color: Colors.white70),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            );
   }
 }

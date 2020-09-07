@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:Trancity/Screens/style.dart' as style;
 import 'package:http/http.dart' as http;
 
+import '../style.dart';
+
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key, this.title}) : super(key: key);
@@ -15,6 +17,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   String url = 'http://192.168.43.59:8080/passenger/register';
   Future _futureSignup;
 
@@ -40,17 +44,13 @@ class _SignUpPageState extends State<SignUpPage> {
         'password': password
       }),
     );
-    if (response.body == "1") {
+    if (response.statusCode == 200) {
+       showSnackBar("Registered successfully", _scaffoldKey);
       Navigator.of(context)
           .pushNamedAndRemoveUntil("/login", (Route<dynamic> route) => false);
       return "done";
     } else {
-      showDialog(
-          context: context,
-          child: new AlertDialog(
-            title: new Text("Notice"),
-            content: new Text(response.body),
-          ));
+       showSnackBar("Registered fail", _scaffoldKey);
       return "not completed";
     }
   }
@@ -60,7 +60,10 @@ class _SignUpPageState extends State<SignUpPage> {
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
       color: style.highlightColor,
       onPressed: () {
-        signupDo(future);
+       setState(() {
+        future = signup(
+            usernameController.text.trim(), passwordController.text.trim());
+      });
       },
       child: Text(
         "Sign Up",
@@ -68,13 +71,6 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-
- void signupDo(Future future) {
-    setState(() {
-        future = signup(
-            usernameController.text.trim(), passwordController.text.trim());
-      });
- }
 
   Widget _field(TextEditingController controller, bool isPass, String hint) {
     return TextField(
@@ -94,6 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
